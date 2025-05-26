@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Güneş Sistemi Yerçekimi Keşfi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #1a1c2e 0%, #2d1b69 50%, #0c0c1e 100%);
+            color: white;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #ffd700;
+            text-shadow: 0 0 10px #ffd700;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700; }
+            to { text-shadow: 0 0 20px #ffd700, 0 0 30px #ffd700, 0 0 40px #ffd700; }
+        }
+
+        .solar-system {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .planet-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.2));
+            border-radius: 20px;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .planet-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            border-color: #ffd700;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .planet-visual {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            position: relative;
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .planet-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ffd700;
+        }
+
+        .gravity-info {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .gravity-demo {
+            position: relative;
+            height: 80px;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .falling-ball {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            border-radius: 50%;
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+        }
+
+        .info-panel {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.9), rgba(30, 30, 60, 0.9));
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            z-index: 1000;
+            border: 3px solid #ffd700;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+            display: none;
+            backdrop-filter: blur(20px);
+        }
+
+        .info-panel.active {
+            display: block;
+            animation: popIn 0.3s ease-out;
+        }
+
+        @keyframes popIn {
+            from { transform: translate(-50%, -50%) scale(0.7); opacity: 0; }
+            to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+        }
+
+        .close-btn:hover {
+            background: #ff3742;
+            transform: scale(1.1);
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Gezegen renkleri */
+        .mercury { background: linear-gradient(145deg, #8c7853, #a0896d); }
+        .venus { background: linear-gradient(145deg, #ffc649, #ffb347); }
+        .earth { background: linear-gradient(145deg, #6b93d6, #4c9141); }
+        .mars { background: linear-gradient(145deg, #cd5c5c, #a0522d); }
+        .jupiter { background: linear-gradient(145deg, #d2b48c, #f4a460); }
+        .saturn { background: linear-gradient(145deg, #fad5a5, #f0d080); }
+        .uranus { background: linear-gradient(145deg, #4fd0e7, #3fbacc); }
+        .neptune { background: linear-gradient(145deg, #4b70dd, #4169e1); }
+
+        .fun-fact {
+            background: rgba(255, 215, 0, 0.1);
+            border-left: 4px solid #ffd700;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .comparison {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        .weight-demo {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .weight-demo h4 {
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .interactive-demo {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .demo-button {
+            background: linear-gradient(145deg, #48cae4, #0077b6);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .demo-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(72, 202, 228, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="header">
+        <h1>🚀 Güneş Sistemi Yerçekimi Keşfi 🪐</h1>
+        <p>Gezegenlere tıklayarak yerçekimini keşfet!</p>
+    </div>
+
+    <div class="solar-system" id="solarSystem">
+        <!-- Gezegenler JavaScript ile oluşturulacak -->
+    </div>
+
+    <div class="info-panel" id="infoPanel">
+        <button class="close-btn" onclick="closeInfo()">&times;</button>
+        <div id="infoContent">
+            <!-- Bilgi içeriği dinamik olarak yüklenecek -->
+        </div>
+    </div>
+
+    <script>
+        // Gezegen verileri
+        const planets = [
+            {
+                name: "Merkür",
+                gravity: 3.7,
+                earthRatio: 0.378,
+                color: "mercury",
+                emoji: "☿️",
+                funFacts: [
+                    "Güneşe en yakın gezegen!",
+                    "Bir günü 176 Dünya günü kadar uzun!",
+                    "Atmosferi neredeyse hiç yok!"
+                ],
+                description: "Merkür, Güneş sisteminin en küçük gezeni ve Güneş'e en yakın olanı. Yerçekimi Dünya'nın 3'te 1'i kadar!"
+            },
+            {
+                name: "Venüs",
+                gravity: 8.87,
+                earthRatio: 0.904,
+                color: "venus",
+                emoji: "♀️",
+                funFacts: [
+                    "En sıcak gezegen - 460°C!",
+                    "Güneş sisteminin en parlak gezeni!",
+                    "Tersten dönüyor!"
+                ],
+                description: "Venüs, 'Sabah Yıldızı' olarak da biliniyor. Yerçekimi neredeyse Dünya kadar güçlü!"
+            },
+            {
+                name: "Dünya",
+                gravity: 9.81,
+                earthRatio: 1.0,
+                color: "earth",
+                emoji: "🌍",
+                funFacts: [
+                    "Yaşamın olduğu tek bilinen gezegen!",
+                    "Yüzeyinin %71'i su!",
+                    "Tek doğal uydusu Ay!"
+                ],
+                description: "Evimiz Dünya! Yerçekimi tam olarak 9.81 m/s². Tüm karşılaştırmalar bu değere göre yapılıyor."
+            },
+            {
+                name: "Mars",
+                gravity: 3.71,
+                earthRatio: 0.378,
+                color: "mars",
+                emoji: "♂️",
+                funFacts: [
+                    "'Kızıl Gezegen' olarak biliniyor!",
+                    "İki küçük uydusu var: Phobos ve Deimos!",
+                    "Güneş sisteminin en büyük volkanı burada!"
+                ],
+                description: "Mars, gelecekte insanların yaşayabileceği gezegen! Yerçekimi Dünya'nın 3'te 1'i kadar."
+            },
+            {
+                name: "Jüpiter",
+                gravity: 24.79,
+                earthRatio: 2.53,
+                color: "jupiter",
+                emoji: "♃",
+                funFacts: [
+                    "Güneş sisteminin en büyük gezeni!",
+                    "79'dan fazla uydusu var!",
+                    "Büyük Kırmızı Leke adında dev bir fırtınası var!"
+                ],
+                description: "Jüpiter, dev bir gaz gezeni! Yerçekimi Dünya'dan 2.5 kat daha güçlü!"
+            },
+            {
+                name: "Satürn",
+                gravity: 10.44,
+                earthRatio: 1.065,
+                color: "saturn",
+                emoji: "🪐",
+                funFacts: [
+                    "Muhteşem halkaları var!",
+                    "Su üzerinde yüzebilecek kadar hafif!",
+                    "82 bilinen uydusu var!"
+                ],
+                description: "Satürn, halkaları ile ünlü! Yerçekimi Dünya'ya çok yakın ama biraz daha güçlü."
+            },
+            {
+                name: "Uranüs",
+                gravity: 8.69,
+                earthRatio: 0.886,
+                color: "uranus",
+                emoji: "🔵",
+                funFacts: [
+                    "Yan yatarak dönüyor!",
+                    "Metanın verdiği mavi renkte!",
+                    "27 bilinen uydusu var!"
+                ],
+                description: "Uranüs, tuhaf bir gezegen - yan yatarak dönüyor! Yerçekimi Dünya'dan biraz daha zayıf."
+            },
+            {
+                name: "Neptün",
+                gravity: 11.15,
+                earthRatio: 1.137,
+                color: "neptune",
+                emoji: "🔷",
+                funFacts: [
+                    "Güneş sisteminin en uzak gezeni!",
+                    "En güçlü rüzgarlar burada - 2100 km/saat!",
+                    "165 yılda bir Güneş'i dolanıyor!"
+                ],
+                description: "Neptün, soğuk ve rüzgarlı! Yerçekimi Dünya'dan biraz daha güçlü."
+            }
+        ];
+
+        // Yıldızları oluştur
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Gezegenleri oluştur
+        function createPlanets() {
+            const solarSystem = document.getElementById('solarSystem');
+            
+            planets.forEach((planet, index) => {
+                const planetCard = document.createElement('div');
+                planetCard.classList.add('planet-card');
+                planetCard.onclick = () => showPlanetInfo(planet);
+                
+                planetCard.innerHTML = `
+                    <div class="planet-visual ${planet.color}">
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2rem;">
+                            ${planet.emoji}
+                        </div>
+                    </div>
+                    <div class="planet-name">${planet.name}</div>
+                    <div class="gravity-info">
+                        Yerçekimi: ${planet.gravity} m/s²<br>
+                        Dünya'ya oranı: ${planet.earthRatio}x
+                    </div>
+                    <div class="gravity-demo">
+                        <div class="falling-ball" id="ball-${index}"></div>
+                    </div>
+                `;
+                
+                solarSystem.appendChild(planetCard);
+                
+                // Top animasyonunu başlat
+                startBallAnimation(index, planet.earthRatio);
+            });
+        }
+
+        // Top animasyonu
+        function startBallAnimation(planetIndex, gravityRatio) {
+            const ball = document.getElementById(`ball-${planetIndex}`);
+            let position = 5;
+            let velocity = 0;
+            const gravity = gravityRatio * 0.3; // Animasyon için ölçeklenmiş
+            
+            function animate() {
+                velocity += gravity;
+                position += velocity;
+                
+                if (position >= 55) { // Alt sınıra ulaştığında
+                    position = 55;
+                    velocity = -velocity * 0.7; // Zıplama
+                }
+                
+                if (velocity < 0.1 && position >= 54) { // Durduğunda
+                    setTimeout(() => {
+                        position = 5;
+                        velocity = 0;
+                    }, 1000);
+                }
+                
+                ball.style.top = position + 'px';
+                requestAnimationFrame(animate);
+            }
+            
+            animate();
+        }
+
+        // Gezegen bilgilerini göster
+        function showPlanetInfo(planet) {
+            const infoPanel = document.getElementById('infoPanel');
+            const infoContent = document.getElementById('infoContent');
+            
+            let weightExample = "";
+            if (planet.name === "Dünya") {
+                weightExample = `
+                    <div class="weight-demo">
+                        <h4>⚖️ Ağırlık Karşılaştırması</h4>
+                        <p>Dünya'da 60 kg olan bir kişi:</p>
+                        <div class="comparison">
+                            <span>🏠 Dünya'da:</span>
+                            <span><strong>60 kg</strong></span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                const exampleWeight = Math.round(60 * planet.earthRatio);
+                weightExample = `
+                    <div class="weight-demo">
+                        <h4>⚖️ Ağırlık Karşılaştırması</h4>
+                        <p>Dünya'da 60 kg olan bir kişi:</p>
+                        <div class="comparison">
+                            <span>🏠 Dünya'da:</span>
+                            <span><strong>60 kg</strong></span>
+                        </div>
+                        <div class="comparison">
+                            <span>${planet.emoji} ${planet.name}'de:</span>
+                            <span><strong>${exampleWeight} kg</strong></span>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            infoContent.innerHTML = `
+                <h2>${planet.emoji} ${planet.name}</h2>
+                <p style="font-size: 1.1rem; margin: 15px 0;">${planet.description}</p>
+                
+                <div class="fun-fact">
+                    <h3>🔬 Yerçekimi Bilgileri</h3>
+                    <p><strong>Yerçekimi Kuvveti:</strong> ${planet.gravity} m/s²</p>
+                    <p><strong>Dünya'ya Oranı:</strong> ${planet.earthRatio}x (${planet.earthRatio > 1 ? 'Daha güçlü' : planet.earthRatio < 1 ? 'Daha zayıf' : 'Aynı'})</p>
+                </div>
+                
+                ${weightExample}
+                
+                <div class="fun-fact">
+                    <h3>🌟 İlginç Bilgiler</h3>
+                    <ul style="text-align: left; padding-left: 20px;">
+                        ${planet.funFacts.map(fact => `<li>${fact}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                <div class="interactive-demo">
+                    <button class="demo-button" onclick="simulateJump('${planet.name}', ${planet.earthRatio})">
+                        🦘 ${planet.name}'de Zıpla!
+                    </button>
+                </div>
+            `;
+            
+            infoPanel.classList.add('active');
+        }
+
+        // Zıplama simülasyonu
+        function simulateJump(planetName, gravityRatio) {
+            const earthJumpHeight = 0.5; // metre
+            const planetJumpHeight = earthJumpHeight / gravityRatio;
+            
+            alert(`🦘 ${planetName}'de zıpladın!\n\n` +
+                  `🌍 Dünya'da: ${earthJumpHeight.toFixed(1)} metre yükseklik\n` +
+                  `${planets.find(p => p.name === planetName).emoji} ${planetName}'de: ${planetJumpHeight.toFixed(1)} metre yükseklik\n\n` +
+                  `${gravityRatio > 1 ? 'Daha ağır hissediyorsun! 😰' : gravityRatio < 1 ? 'Süper kahraman gibi yüksek zıplıyorsun! 🦸‍♂️' : 'Dünya\'daki gibi normal zıplıyorsun! 😊'}`);
+        }
+
+        // Bilgi panelini kapat
+        function closeInfo() {
+            document.getElementById('infoPanel').classList.remove('active');
+        }
+
+        // ESC tuşu ile kapat
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeInfo();
+            }
+        });
+
+        // Sayfa yüklendiğinde
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+            createPlanets();
+        });
+    </script>
+</body>
+</html>
